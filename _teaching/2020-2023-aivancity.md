@@ -4,7 +4,7 @@ collection: teaching
 type: "Graduate course"
 permalink: /teaching/2020-23-aivancity
 venue: "aivancity"
-date: 2023
+date: 2023-01-01
 location: "Cachan, France"
 ---
 
