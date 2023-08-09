@@ -11,30 +11,24 @@ redirect_from:
 
 Education
 ======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+* 2023: PhD in Informatics with the [AVALON (Algorithms and Software Architectures for Service Oriented Platforms)](https://avalon.ens-lyon.fr/) team from Inria and the [LIP Laboratory](http://www.ens-lyon.fr/LIP) in [Ecole Normale Superieure de Lyon](http://www.ens-lyon.fr/)
+* 2018: [Kyoto University's Graduate School of Informatics](http://www.i.kyoto-u.ac.jp/en/), exchange year
+* 2015-2018: [ENSIMAG, Grenoble INP](https://ensimag.grenoble-inp.fr/en) (equivalent: Master's Degree)
+* 2013-2015: Scientific preparatory classes at [CPP Grenoble](http://www.la-prepa-des-inp.fr/) (equivalent: Bachelor’s Degree)
 
-Work experience
-======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-  
-Skills
+Work Experience
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* 2020/09-2023/08: Assistant Professor at [aivancity Paris-Cachan](https://www.aivancity.ai/) (France)
+
+* 2019/09-2020/09: Instructor & Researcher at [emlyon business school](https://www.em-lyon.com/en/) (France)
+
+* 2019/01-2019/09: Data Analyst at [Schneider Electric](https://www.se.com/us/en/), Houston TX (USA)
+
+* 2017/10-2018/10: Student Research at [Kyoto University's Ishii Lab](http://ishiilab.jp/kyoto/en/toppage) (Japan)
+
+* 2017/05-2017/09: Data Science Research Internship at [CiNet (Center for Information and Neural Networks)](https://cinet.jp/english/), Osaka (Japan)
+
 
 Publications
 ======
@@ -42,18 +36,9 @@ Publications
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
-Talks
-======
-  <ul>{% for post in site.talks %}
-    {% include archive-single-talk-cv.html %}
-  {% endfor %}</ul>
   
 Teaching
 ======
   <ul>{% for post in site.teaching %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
