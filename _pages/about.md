@@ -20,5 +20,4 @@ I am also working at [aivancity Paris-Cachan](https://www.aivancity.ai/) as an [
 
 Sustainability in AI and IoT, Distributed computing, Deep learning, Data analysis in precision agriculture & sports 
 
-{% include image.html url="images/pb_audio.jpg" description="Honey bee beehives and a connected roof" %}
-
+![Honey bee beehives and a connected roof](images/pb_audio.jpg){:class="img-responsive"}
