@@ -20,7 +20,7 @@ I am also working at [aivancity Paris-Cachan](https://www.aivancity.ai/) as an [
 
 Sustainability in AI and IoT, Distributed computing, Deep learning, Data analysis in precision agriculture & sports 
 
-### Listen to the bee! (audio recorded by our smart beehive)
+### Listen to the bees! (audio recorded by our smart beehive)
 
 <audio controls src="files/bees.mp3"></audio>
 
