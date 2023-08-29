@@ -21,8 +21,7 @@ I am also working at [aivancity Paris-Cachan](https://www.aivancity.ai/) as an [
 Sustainability in AI and IoT, Distributed computing, Deep learning, Data analysis in precision agriculture & sports 
 
 ### Listen to the bee! (audio recorded by the system)
-https://github.com/hadjurh/hadjurh.github.io/assets/26577863/38be5524-b669-47d9-b232-4c907d86faa4
-
+https://github.com/hadjurh/hadjurh.github.io/assets/26577863/81e2b3e9-cece-4fe3-8b67-e578429bfc13
 
 ![Honey bee beehives and a connected roof](images/pb_audio.jpg){:class="img-responsive"}
 *Honey bee beehives and a connected roof*
