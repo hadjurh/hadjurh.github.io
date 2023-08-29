@@ -29,6 +29,7 @@ Sustainability in AI and IoT, Distributed computing, Deep learning, Data analysi
 ![Deployment of smart beehives](images/deployment_cachan.jpg){:class="img-responsive"}
 *Deployment of smart beehives*
 
+### Pictures taken by the system
 ![Bees bringing pollen back inside their hive](images/bee_pollen.png){:class="img-responsive"}
 *Pollen being brought back*
 
