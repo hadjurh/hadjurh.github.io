@@ -30,10 +30,10 @@ Sustainability in AI and IoT, Distributed computing, Deep learning, Data analysi
 *Deployment of smart beehives*
 
 ![Bees bringing pollen back inside their hive](images/bee_pollen.png){:class="img-responsive"}
-*Bees bringing pollen back inside their hive (image taken by the smart beehive)*
+*Pollen being brought back*
 
 ![A wasp around the entrance](images/wasp.jpg){:class="img-responsive"}
-*Intruder: a wasp around the entrance (image taken by the smart beehive)*
+*A wasp around the entrance*
 
 ![An Asian hornet around the entrance](images/hornet.jpg){:class="img-responsive"}
-*Intruder: an Asian hornet around the entrance (image taken by the smart beehive)*
+*An Asian hornet around the entrance*
