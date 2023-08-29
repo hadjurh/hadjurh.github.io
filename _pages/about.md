@@ -31,10 +31,13 @@ Sustainability in AI and IoT, Distributed computing, Deep learning, Data analysi
 
 ### Pictures taken by the system
 ![Bees bringing pollen back inside their hive](images/bee_pollen.png){:class="img-responsive"}
+
 *Pollen being brought back*
 
 ![A wasp around the entrance](images/wasp.jpg){:class="img-responsive"}
+
 *A wasp around the entrance*
 
 ![An Asian hornet around the entrance](images/hornet.jpg){:class="img-responsive"}
+
 *An Asian hornet around the entrance*
