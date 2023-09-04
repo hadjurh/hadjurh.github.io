@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Welcome to my personal page"
+title: "Hugo Hadjur - Doctor in Informatics"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
