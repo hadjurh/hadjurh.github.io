@@ -24,14 +24,14 @@ Sustainability in AI and IoT, Distributed computing, Deep learning, Data analysi
 
 <audio controls src="files/bees.mp3"></audio>
 
-![Honey bee beehives and a connected roof](images/pb_audio.jpg){:class="img-responsive"}\
-*Honey bee beehives and a connected roof*
+![Deployment of smart beehives](images/deployment_cachan.jpg){:class="img-responsive"}\
+*Deployment of smart beehives*
 
 ![Test of the smart beehive system](images/test_cachan.jpeg){:class="img-responsive"}\
 *Test of the smart beehive system*
 
-![Deployment of smart beehives](images/deployment_cachan.jpg){:class="img-responsive"}\
-*Deployment of smart beehives*
+![Honey bee beehives and a connected roof](images/pb_audio.jpg){:class="img-responsive"}\
+*Honey bee beehives and a connected roof*
 
 ### Pictures taken by the system
 ![Bees bringing pollen back inside their hive](images/bee_pollen.png){:class="img-responsive"}\
