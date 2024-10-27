@@ -1,10 +1,10 @@
 ---
 layout: archive
 title: "PhD Thesis"
-permalink: /phd/
+permalink: /
 author_profile: true
 redirect_from:
-  - /resume
+  - /thesis
 ---
 
 {% include base_path %}
