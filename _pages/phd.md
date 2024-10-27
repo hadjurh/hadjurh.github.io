@@ -9,6 +9,9 @@ redirect_from:
 
 {% include base_path %}
 
+[Link to manuscript](/files/manuscript.pdf)
+[Link to defense slides](/files/defense-slides.pdf)
+
 ## PhD Thesis Research
 ### Listen to the bees! (audio recorded a smart beehive during my PhD)
 

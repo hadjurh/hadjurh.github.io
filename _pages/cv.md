@@ -9,6 +9,8 @@ redirect_from:
 
 {% include base_path %}
 
+[Link to full PDF version](/files/cv.pdf)
+
 Education
 ======
 * 2023: PhD in Informatics with the [AVALON (Algorithms and Software Architectures for Service Oriented Platforms)](https://avalon.ens-lyon.fr/) team from Inria and the [LIP Laboratory](http://www.ens-lyon.fr/LIP) in [Ecole Normale Superieure de Lyon](http://www.ens-lyon.fr/)
