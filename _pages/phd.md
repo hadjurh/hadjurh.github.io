@@ -1,7 +1,7 @@
 ---
 layout: archive
 title: "PhD Thesis"
-permalink: /
+permalink: /phd/
 author_profile: true
 redirect_from:
   - /thesis
