@@ -12,14 +12,14 @@ redirect_from:
 
 Experience in academic research, teaching and the industry
 
-#### AI
+### AI
 * Reinforcement Learning & Deep Reinforcement Learning
 * Computer Vision
 * Natural Language Processing (LLMs, zero-shot text classification, paraphrase mining)
 * AI Sustainability & Energy Monitoring of AI
 * Edge AI
 
-#### Statistics & Data
+### Statistics & Data
 * Data analysis applied to sports
 * Data visualization 
 * Statistical methods applied to biostatistics
@@ -28,7 +28,7 @@ Experience in academic research, teaching and the industry
   - Quantitative decision making
   - Multi-criteria decision analysis
 
-#### Software Development
+### Software Development
 * R Shiny app
 * Data visualization Discord bot
 
