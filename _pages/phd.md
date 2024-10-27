@@ -12,7 +12,7 @@ redirect_from:
 ## PhD Thesis Research
 ### Listen to the bees! (audio recorded a smart beehive during my PhD)
 
-<audio controls src="files/bees.mp3"></audio>
+<audio controls src="/files/bees.mp3"></audio>
 
 ![Deployment of smart beehives](/images/deployment_cachan.jpg){:class="img-responsive"}\
 *Deployment of smart beehives*
