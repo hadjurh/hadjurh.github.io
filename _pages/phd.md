@@ -10,6 +10,7 @@ redirect_from:
 {% include base_path %}
 
 [Link to manuscript](/files/manuscript.pdf)
+
 [Link to defense slides](/files/defense-slides.pdf)
 
 ## PhD Thesis Research
