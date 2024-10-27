@@ -19,6 +19,8 @@ Education
 
 Work Experience
 ======
+* Since 2023/12: AI & Statistical Methodologist at [Saryga](https://saryga.com) (France)
+
 * 2020/09-2023/08: Assistant Professor at [aivancity Paris-Cachan](https://www.aivancity.ai/) (France)
 
 * 2019/09-2020/09: Instructor & Researcher at [emlyon business school](https://www.em-lyon.com/en/) (France)
