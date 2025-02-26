@@ -10,7 +10,7 @@ tags:
   - Continuous Biomarker
   - Early Phase
   - Personalized Medicine
-  - Predictive
+  - Predictive  
 ---
  
 

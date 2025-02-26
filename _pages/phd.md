@@ -14,7 +14,7 @@ redirect_from:
 [Link to defense slides](/files/defense-slides.pdf)
 
 ## PhD Thesis Research
-### Listen to the bees! (audio recorded a smart beehive during my PhD)
+### Listen to the bees! (audio recorded by a smart beehive during my PhD)
 
 <audio controls src="/files/bees.mp3"></audio>
 
