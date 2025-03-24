@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Hugo HADJUR - PhD in Informatics"
 title_separator          : "-"
 name                     : &name "Hugo Hadjur"
-description              : &description "PhD in Informatics at ENS de Lyon"
+description              : &description "Doctor in Informatics"
 url                      : https://hadjurh.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "hadjurh/hadjurh.github.io"
@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "Hugo Hadjur"
   avatar           : "profile.jpeg"
-  bio              : "PhD in Informatics at ENS de Lyon"
+  bio              : "Doctor in Informatics"
   location         : "Grenoble, France"
   employer         :
   pubmed           : 
