@@ -40,4 +40,4 @@ From September 2020 to July 2023, I worked with the [AVALON](https://avalon.ens-
 I successfully defended my thesis on July 13th, 2023.
 My thesis was co-supervised by [Laurent Lefèvre](https://perso.ens-lyon.fr/laurent.lefevre/) and [Doreid Ammar](https://scholar.google.com/citations?user=Wh-CURQAAAAJ&hl=en).
 
-I am now currently working at [Saryga](https://saryga.com) as an [AI & Statistical Methodologist](https://saryga.com/about/).
+I am currently working at [Saryga](https://saryga.com) as an [AI & Statistical Methodologist](https://saryga.com/about/).
