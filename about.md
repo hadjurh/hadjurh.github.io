@@ -33,5 +33,4 @@
 I am currently working at <a href="https://saryga.com" target="_blank" rel="noopener">Saryga</a> as an <span class="text-accent">AI & Statistical Methodologist</span>.
 
 From September 2020 to July 2023, I worked with the <a href="https://avalon.ens-lyon.fr/" target="_blank" rel="noopener">AVALON</a> team from Inria and the <a href="http://www.ens-lyon.fr/LIP" target="_blank" rel="noopener">LIP Laboratory</a> in <a href="http://www.ens-lyon.fr/" target="_blank" rel="noopener">ENS de Lyon</a> toward my <a href="/files/manuscript.pdf" target="_blank" rel="noopener">PhD thesis</a>: <span class="text-accent">"Designing and modeling sustainable, autonomous, smart, and energy efficient Internet of Things systems, applied to precision beekeeping"</span>.
-I successfully defended my thesis on July 13th, 2023.
-My thesis was co-supervised by <a href="https://perso.ens-lyon.fr/laurent.lefevre/" target="_blank" rel="noopener">Laurent Lefèvre</a> and <a href="https://scholar.google.com/citations?user=Wh-CURQAAAAJ" target="_blank" rel="noopener">Doreid Ammar</a>.
+My thesis was co-supervised by <a href="https://perso.ens-lyon.fr/laurent.lefevre/" target="_blank" rel="noopener">Laurent Lefèvre</a> and <a href="https://scholar.google.com/citations?user=Wh-CURQAAAAJ" target="_blank" rel="noopener">Doreid Ammar</a>, and was successfully defended in July 2023.
