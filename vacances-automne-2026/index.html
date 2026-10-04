@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bootcamp outOfGrenoble</title>
+<style>
+:root{
+  --papier:#F4F6F3; --surface:#FFFFFF; --encre:#1C2528; --gris:#58646A; --ligne:#D6DCD8;
+  --a:#B06E14; --a-fond:#F6EBDC;      /* destination A : ocre */
+  --b:#2B6390; --b-fond:#E2EDF6;      /* destination B : bleu glacier */
+  --c:#2E5E4E; --c-fond:#E1EEE8;      /* destination C : vert sapin */
+  --oui:#2E7D4F; --bof:#A9781A; --non:#B23A3A;
+  --titre:"Bahnschrift","DIN Alternate","DIN Condensed","Barlow Condensed","Roboto Condensed","Arial Narrow",sans-serif;
+  --texte:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --papier:#141A1C; --surface:#1C2427; --encre:#E7ECEA; --gris:#9AA6AA; --ligne:#2E3A3E;
+  --a:#E2A04A; --a-fond:#3A2C18; --b:#6FA8D8; --b-fond:#1A2C3B; --c:#6FB39A; --c-fond:#18302A;
+  --oui:#5CC287; --bof:#E0B04E; --non:#E77272;
+}}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+body{margin:0;background:var(--papier);color:var(--encre);font:16px/1.55 var(--texte);-webkit-text-size-adjust:100%}
+main{max-width:760px;margin:0 auto;padding:0 18px 64px}
+h1,h2,h3{font-family:var(--titre);font-weight:700;line-height:1.15;letter-spacing:.01em}
+h1{font-size:clamp(2rem,7vw,3rem);margin:.3em 0 .25em}
+h2{font-size:1.65rem;margin:2.4em 0 .6em;padding-top:.4em;border-top:3px solid var(--encre)}
+h3{font-size:1.2rem;margin:1.2em 0 .4em}
+p{margin:.5em 0}
+a{color:var(--b)}
+small,.discret{color:var(--gris)}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+.defile{overflow-x:auto;margin:1em 0;border:1px solid var(--ligne);border-radius:6px;background:var(--surface)}
+th,td{text-align:left;padding:.55em .7em;border-bottom:1px solid var(--ligne);vertical-align:top}
+th{font-family:var(--titre);font-weight:600;background:var(--papier)}
+tr:last-child td{border-bottom:0}
+:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+
+/* Navigation */
+nav.sommaire{position:sticky;top:0;z-index:5;background:var(--papier);border-bottom:1px solid var(--ligne);
+  padding-top:env(safe-area-inset-top,0px)}
+nav.sommaire ul{display:flex;gap:.2em;overflow-x:auto;list-style:none;margin:0 auto;padding:.5em 14px;max-width:760px;scrollbar-width:none}
+nav.sommaire a{display:block;white-space:nowrap;padding:.3em .7em;border-radius:99px;text-decoration:none;color:var(--encre);font-size:.9rem}
+nav.sommaire a:hover{background:var(--ligne)}
+
+/* Accroche */
+.accroche{padding:2.2em 0 1em}
+.panneaux{display:flex;flex-wrap:wrap;gap:.6em}
+.panneau{display:inline-flex;flex-direction:column;padding:.45em .9em .5em;border-radius:5px;color:#fff;
+  font-family:var(--titre);border:2px solid rgba(255,255,255,.55);box-shadow:0 0 0 2px var(--panneau,var(--a))}
+.panneau b{font-size:1.25rem;line-height:1.1}
+.panneau span{font-size:.85rem;opacity:.9}
+[data-dest="a"]{--panneau:var(--a);--fond:var(--a-fond)}
+[data-dest="b"]{--panneau:var(--b);--fond:var(--b-fond)}
+[data-dest="c"]{--panneau:var(--c);--fond:var(--c-fond)}
+.panneau{background:var(--panneau,var(--a))}
+.resume{font-size:1.1rem;max-width:62ch}
+.question{margin:1.2em 0 0;padding:.9em 1em;background:var(--surface);border-left:5px solid var(--encre);font-size:1.05rem}
+
+/* En bref */
+.bref dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;background:var(--surface);
+  border:1px solid var(--ligne);border-radius:6px;overflow:hidden;margin:1em 0}
+.bref dl div{outline:1px solid var(--ligne);padding:.7em .9em}
+.bref dt{font-size:.85rem;color:var(--gris)}
+.bref dd{margin:.1em 0 0;font-family:var(--titre);font-size:1.2rem;font-weight:600}
+
+/* Destinations */
+.dests{display:grid;gap:1em;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.dest{background:var(--surface);border:1px solid var(--ligne);border-top:6px solid var(--panneau);border-radius:6px;padding:1em 1.1em}
+.dest h3{margin-top:.2em;color:var(--panneau)}
+.dest ul{padding-left:1.2em;margin:.4em 0}
+.plus li::marker{content:"+  ";color:var(--oui);font-weight:700}
+.moins li::marker{content:"–  ";color:var(--non);font-weight:700}
+svg.profil{width:100%;height:auto;margin:.6em 0 .2em;background:var(--fond);border-radius:4px}
+svg.profil polyline{fill:none;stroke:var(--panneau);stroke-width:2.5;stroke-linejoin:round}
+svg.profil polygon{fill:var(--panneau);opacity:.18}
+svg.profil text{font:11px var(--texte);fill:var(--gris)}
+
+/* Verdicts */
+.oui::before,.bof::before,.non::before{font-weight:700;margin-right:.35em}
+.oui::before{content:"✓";color:var(--oui)}
+.bof::before{content:"~";color:var(--bof)}
+.non::before{content:"✗";color:var(--non)}
+th[data-dest]{color:var(--panneau)}
+
+/* Calculateur */
+.calc{background:var(--surface);border:1px solid var(--ligne);border-radius:6px;padding:1em 1.1em;margin:1.2em 0}
+.calc .champs{display:grid;gap:.8em;align-items:end;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+label{display:block;font-size:.9rem;color:var(--gris)}
+select,input,textarea{font:inherit;color:var(--encre);background:var(--papier);border:1px solid var(--ligne);border-radius:5px;padding:.45em .55em;width:100%;margin-top:.2em}
+.total{font-family:var(--titre);font-size:1.9rem;font-weight:700;margin:.6em 0 .1em}
+.detail{font-size:.9rem;color:var(--gris);margin:0}
+
+/* Trajets */
+.scenario{background:var(--surface);border:1px solid var(--ligne);border-radius:6px;padding:1em 1.1em;margin:1em 0}
+.scenario h3{margin-top:0}
+ol.trajet{list-style:none;margin:.6em 0;padding:0 0 0 1.6em;border-left:3px dotted var(--ligne);margin-left:.6em}
+ol.trajet li{position:relative;margin:.55em 0}
+ol.trajet li::before{position:absolute;left:-2.35em;top:-.05em;width:1.6em;height:1.6em;border-radius:50%;
+  display:grid;place-items:center;background:var(--surface);border:2px solid var(--encre);font-size:.8rem}
+ol.trajet li[data-mode="train"]::before{content:"🚆"}
+ol.trajet li[data-mode="velo"]::before{content:"🚲"}
+ol.trajet li[data-mode="voiture"]::before{content:"🚗"}
+ol.trajet li[data-mode="pied"]::before{content:"🥾"}
+ol.trajet li[data-mode="bus"]::before{content:"🚌"}
+
+/* Activités */
+.filtres{display:flex;flex-wrap:wrap;gap:.4em;margin:.8em 0}
+.filtres button{font:inherit;font-size:.9rem;padding:.35em .85em;border-radius:99px;border:1px solid var(--encre);background:transparent;color:var(--encre);cursor:pointer}
+.filtres button[aria-pressed="true"]{background:var(--encre);color:var(--papier)}
+.activites{display:grid;gap:.7em}
+.activite{background:var(--surface);border:1px solid var(--ligne);border-radius:6px;padding:.8em 1em}
+.activite h3{margin:0 0 .2em;font-size:1.1rem}
+.activite .meta{font-size:.85rem;color:var(--gris)}
+.public{display:inline-block;font-size:.78rem;padding:.1em .55em;border-radius:3px;margin-right:.4em;font-weight:600}
+[data-public="tous"] .public{background:var(--c-fond);color:var(--c)}
+[data-public="velo"] .public{background:var(--a-fond);color:var(--a)}
+[data-public="grimpe"] .public{background:var(--b-fond);color:var(--b)}
+.activite[hidden]{display:none}
+
+/* Agenda */
+.evt{display:flex;gap:.9em;align-items:flex-start;padding:.7em 0;border-bottom:1px solid var(--ligne)}
+.evt .date{flex:0 0 3.6em;text-align:center;font-family:var(--titre);border:2px solid var(--encre);border-radius:5px;padding:.15em 0;background:var(--surface)}
+.evt .date b{display:block;font-size:1.4rem;line-height:1}
+.evt .date span{font-size:.75rem}
+.evt p{margin:.15em 0}
+
+/* Divers */
+.note{padding:.7em .9em;border-radius:5px;background:var(--surface);border:1px dashed var(--gris);font-size:.95rem;margin:1em 0}
+.incertain::after{content:"à vérifier";display:inline-block;margin-left:.4em;font-size:.72rem;font-weight:600;
+  padding:.05em .45em;border-radius:3px;background:var(--bof);color:#fff;vertical-align:.1em}
+
+/* Réponse */
+.reponse{background:var(--surface);border:2px solid var(--encre);border-radius:8px;padding:1.1em 1.2em}
+.reponse fieldset{border:0;padding:0;margin:0 0 1em}
+.reponse legend{font-family:var(--titre);font-weight:600;font-size:1.05rem;margin-bottom:.3em}
+.choix{display:flex;flex-wrap:wrap;gap:.4em}
+.choix label{display:inline-flex;align-items:center;gap:.35em;color:var(--encre);font-size:.95rem;
+  border:1px solid var(--ligne);border-radius:99px;padding:.3em .8em;cursor:pointer}
+.choix input{width:auto;margin:0}
+.boutons{display:flex;flex-wrap:wrap;gap:.6em;margin-top:.6em}
+.boutons button,.boutons a{font:inherit;font-weight:600;padding:.6em 1.1em;border-radius:6px;border:2px solid var(--encre);
+  background:var(--encre);color:var(--papier);text-decoration:none;cursor:pointer}
+.boutons .second{background:transparent;color:var(--encre)}
+#apercu{white-space:pre-wrap;font-size:.9rem;background:var(--papier);border-radius:5px;padding:.7em;margin-top:.8em}
+
+.sources li{font-size:.9rem;margin:.3em 0}
+footer{margin-top:3em;font-size:.85rem;color:var(--gris)}
+@media print{nav.sommaire,.filtres,.boutons{display:none}h2{break-after:avoid}.dest,.scenario,.activite{break-inside:avoid}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+/* --- Ajouts : thème forcé, barre, replis, questions par étape --- */
+:root[data-theme="dark"]{
+  --papier:#141A1C; --surface:#1C2427; --encre:#E7ECEA; --gris:#9AA6AA; --ligne:#2E3A3E;
+  --a:#E2A04A; --a-fond:#3A2C18; --b:#6FA8D8; --b-fond:#1A2C3B; --c:#6FB39A; --c-fond:#18302A;
+  --oui:#5CC287; --bof:#E0B04E; --non:#E77272;
+}
+:root{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+.barre{display:flex;align-items:center;gap:.4em;max-width:760px;margin:0 auto;padding-right:12px}
+.barre ul{flex:1;min-width:0}
+.theme-btn{flex:0 0 auto;font:inherit;font-size:.85rem;border:1px solid var(--ligne);background:var(--surface);color:var(--encre);
+  border-radius:99px;padding:.3em .75em;cursor:pointer;white-space:nowrap}
+.gros{font-size:1.15rem}
+.mode-emploi{display:flex;gap:.6em;align-items:flex-start}
+details.repli{margin:.8em 0;border:1px solid var(--ligne);border-radius:6px;background:var(--surface)}
+details.repli>summary{cursor:pointer;padding:.65em .9em;font-weight:600;list-style:none}
+details.repli>summary::-webkit-details-marker{display:none}
+details.repli>summary::before{content:"+";display:inline-block;width:1.3em;font-weight:700;color:var(--gris)}
+details.repli[open]>summary::before{content:"–"}
+details.repli>.contenu{padding:0 .9em .9em}
+.dest details.repli{background:var(--papier)}
+.liste{list-style:none;padding:0;margin:.4em 0}
+.liste li{padding:.45em 0;border-bottom:1px solid var(--ligne)}
+.liste li:last-child{border-bottom:0}
+.liste small{display:block;color:var(--gris)}
+h4{font-family:var(--titre);font-size:1.02rem;margin:1em 0 .2em}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;padding:0 .45em;border-radius:3px;background:var(--fond);color:var(--panneau);vertical-align:.1em}
+.coup-oeil th[scope="row"]{font-family:var(--texte);font-weight:600;background:var(--surface)}
+.reponse.q{margin:1.6em 0 0}
+.etape{margin:0 0 .3em;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gris)}
+.reponse fieldset:last-of-type{margin-bottom:0}
+#manque{margin:.2em 0 .8em;font-size:.95rem}
+#manque a{color:var(--encre)}
+#manque.complet{color:var(--oui);font-weight:600}
+#apercu{display:block}
+</style>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+</head>
+<body>
+
+<nav class="sommaire" aria-label="Sections">
+  <div class="barre">
+    <ul>
+      <li><a href="#quand">Quand</a></li>
+      <li><a href="#ou">Où</a></li>
+      <li><a href="#quoi">Activités</a></li>
+      <li><a href="#budget">Budget</a></li>
+      <li><a href="#trajet">Trajet</a></li>
+      <li><a href="#a-toi">Répondre</a></li>
+    </ul>
+    <button type="button" class="theme-btn" id="theme">🌙 Sombre</button>
+  </div>
+</nav>
+
+<main>
+
+<header class="accroche">
+  <div class="panneaux">
+    <span class="panneau" data-dest="a"><b>Sud Ardèche</b><span>Gorges, garrigue et châtaignes</span></span>
+    <span class="panneau" data-dest="b"><b>Briançonnais</b><span>Cols à plus de 2&nbsp;000&nbsp;m</span></span>
+  </div>
+  <h1>Bootcamp outOfGrenoble en octobre&nbsp;: tu viens&nbsp;?</h1>
+  <p class="resume">Jérémy et Hugo proposent de louer une maison pour quelques jours en octobre. Eux deux font du vélo&nbsp;; toi, tu randonnes, tu grimpes ou tu te poses. Compte 150 à 450&nbsp;€ tout compris.</p>
+  <p class="question"><strong>Mode d'emploi&nbsp;:</strong> lis de haut en bas et réponds aux 5 questions en passant. En bas, un bouton copie ta réponse pour le groupe. Les «&nbsp;+&nbsp;» ouvrent les détails, si tu es curieux.</p>
+</header>
+
+<!-- 1. QUAND -->
+<section id="quand">
+  <h2>1. Quand&nbsp;?</h2>
+  <p class="gros">Entre le 9 et le 29&nbsp;octobre 2026&nbsp;: <strong>3-4 jours</strong> (jeudi → dimanche) ou <strong>une semaine</strong> (samedi → dimanche).</p>
+  <p class="note"><strong>L'avis de Jérémy et Hugo&nbsp;:</strong> le Briançonnais seulement avant le 18&nbsp;octobre. Après, ses cols risquent de fermer à la première neige. L'Ardèche marche tout le mois.</p>
+  <details class="repli"><summary>Ce qui se passe pendant ces dates</summary><div class="contenu">
+    <ul class="liste">
+      <li><b>11 oct.</b> · Castagnade (fête de la châtaigne) de Jaujac <span class="tag" data-dest="a">Ardèche</span><small>À 49&nbsp;km de Vallon, entrée libre.</small></li>
+      <li><b>17-18 oct.</b> · Castagnade de Joyeuse <span class="tag" data-dest="a">Ardèche</span><small>À 25&nbsp;km de Vallon, de 10&nbsp;h à 18&nbsp;h. La plus proche du camp de base.</small></li>
+      <li><b>18 oct.</b> · Foire d'automne de Briançon <span class="tag" data-dest="b">Briançonnais</span><small>Rue Centrale, avec le marché du dimanche matin.</small></li>
+      <li><b>22 et 29 oct.</b> · Col du Granon réservé aux vélos <span class="tag" data-dest="b">Briançonnais</span><small>De 9&nbsp;h à 12&nbsp;h, aucune voiture. Gratuit, sans inscription.</small></li>
+      <li><b>24-25 oct.</b> · Castagnades des Vans, d'Antraigues et de Saint-André-Lachamp <span class="tag" data-dest="a">Ardèche</span><small>Les Vans le 24 (32&nbsp;km), Antraigues les 24 et 25 (55&nbsp;km), Saint-André-Lachamp le 25 (37&nbsp;km).</small></li>
+      <li><b>25 oct.</b> · Passage à l'heure d'hiver<small>Il fait nuit une heure plus tôt le soir&nbsp;: lampes pour les retours à vélo.</small></li>
+      <li><b>Dès le 17 oct.</b> · Vacances de la Toussaint (zone&nbsp;A)<small>Un peu plus de monde sur les sites.</small></li>
+      <li><b>Marchés, le matin</b><small>Ardèche&nbsp;: lundi Saint-Alban-Auriolles, mercredi Joyeuse, jeudi Vallon, vendredi Ruoms et Barjac, samedi Les Vans. Briançon&nbsp;: mercredi et dimanche.</small></li>
+    </ul>
+  </div></details>
+
+  <div class="reponse q" id="q1">
+    <p class="etape">Question 1 sur 5</p>
+    <fieldset><legend>Tes dispos <small>(coche tout ce qui te va)</small></legend><div class="choix" data-groupe="Dispos" data-requis data-ancre="q1">
+      <label><input type="checkbox" value="ven. 9 – dim. 11 oct.">Ven. 9 – dim. 11 oct. (express)</label>
+      <label><input type="checkbox" value="ven. 16 – dim. 18 oct.">Ven. 16 – dim. 18 oct.</label>
+      <label><input type="checkbox" value="jeu. 22 – dim. 25 oct.">Jeu. 22 – dim. 25 oct.</label>
+      <label><input type="checkbox" value="semaine du 10 au 18 oct.">Semaine du sam. 10 au dim. 18 oct.</label>
+      <label><input type="checkbox" value="semaine du 17 au 25 oct.">Semaine du sam. 17 au dim. 25 oct.</label>
+    </div></fieldset>
+    <fieldset><legend>Durée idéale</legend><div class="choix" data-groupe="Durée">
+      <label><input type="radio" name="duree" value="3-4 jours">3-4 jours</label>
+      <label><input type="radio" name="duree" value="1 semaine">1 semaine</label>
+      <label><input type="radio" name="duree" value="les deux me vont">Les deux me vont</label>
+    </div></fieldset>
+  </div>
+</section>
+
+<!-- 2. OÙ -->
+<section id="ou">
+  <h2>2. Où&nbsp;?</h2>
+  <div class="dests">
+    <article class="dest" data-dest="a">
+      <h3>Sud Ardèche</h3>
+      <p>Gorges, villages et châtaignes. Camp de base à Vallon-Pont-d'Arc.</p>
+      <ul class="plus"><li>Doux&nbsp;: 9 à 18&nbsp;°C</li><li>Facile en train + vélo</li><li>Balades pour tous, grottes s'il pleut</li></ul>
+      <ul class="moins"><li>Pas de grands cols</li><li>Mois le plus pluvieux de l'année</li></ul>
+      <details class="repli"><summary>Profil et infos pratiques</summary><div class="contenu">
+        <svg class="profil" viewBox="0 0 300 110" role="img" aria-label="Profil de la boucle des gorges de l'Ardèche&nbsp;: 65 km, environ 800 m de dénivelé positif, point haut à 433 m">
+        <polygon points="0,100 0,80.8 5,83.7 11,81.3 18,70.3 24.2,69 30.5,60.8 36.5,60.8 42.5,52.5 48.6,45 54.6,37.7 60.6,30.8 66.7,37.2 72.7,40.2 78.8,45.3 84.8,55.2 90.8,47.8 96.9,47.3 103,55.7 109,63.6 115,75.4 121,79.7 127,81.6 133,80 139,89.7 145,94.3 151,92.4 157.2,92 163.3,90.5 169.5,78.3 175.7,67 181.7,62.4 187.8,61.2 194.3,52.5 200.4,48.5 206.5,44.9 212.5,38.4 219.1,30.8 225.2,23.1 231.6,25.7 237.6,29.2 243.9,28.1 250.2,25.8 256.2,18.8 263,19.9 269,33.5 275,49 281,56.9 287,74.6 293,82.3 299.2,81.4 300,80.7 300,100"/>
+        <polyline points="0,80.8 5,83.7 11,81.3 18,70.3 24.2,69 30.5,60.8 36.5,60.8 42.5,52.5 48.6,45 54.6,37.7 60.6,30.8 66.7,37.2 72.7,40.2 78.8,45.3 84.8,55.2 90.8,47.8 96.9,47.3 103,55.7 109,63.6 115,75.4 121,79.7 127,81.6 133,80 139,89.7 145,94.3 151,92.4 157.2,92 163.3,90.5 169.5,78.3 175.7,67 181.7,62.4 187.8,61.2 194.3,52.5 200.4,48.5 206.5,44.9 212.5,38.4 219.1,30.8 225.2,23.1 231.6,25.7 237.6,29.2 243.9,28.1 250.2,25.8 256.2,18.8 263,19.9 269,33.5 275,49 281,56.9 287,74.6 293,82.3 299.2,81.4 300,80.7"/>
+        <text x="4" y="14">Boucle des gorges · 65 km · ≈ 800 m D+</text>
+        <text x="4" y="106">Vallon, 115 m</text><text x="296" y="106" text-anchor="end">point haut&nbsp;: 433 m</text>
+      </svg>
+        <ul class="liste">
+          <li><b>Camp de base</b><small>Vallon-Pont-d'Arc ou Ruoms (10&nbsp;km entre les deux). Gare la plus proche&nbsp;: Pierrelatte, à 33&nbsp;km à vélo.</small></li>
+          <li><b>Courses</b><small>Intermarché à Vallon, ouvert aussi le dimanche matin. Super U à Ruoms.</small></li>
+          <li><b>Météo</b><small>Environ 110&nbsp;mm de pluie en octobre. Un orage cévenol peut noyer une journée.</small></li>
+          <li><b>Sur place</b><small>Peu de bus&nbsp;: sans voiture, les non-cyclistes restent coincés.</small></li>
+        </ul>
+      </div></details>
+    </article>
+    <article class="dest" data-dest="b">
+      <h3>Briançonnais</h3>
+      <p>Cols mythiques et mélèzes dorés. Camp de base à Briançon.</p>
+      <ul class="plus"><li>Izoard, Granon, Galibier depuis la maison</li><li>Escalade au soleil, tous niveaux</li><li>Bains chauds en plein air s'il pleut</li></ul>
+      <ul class="moins"><li>Froid&nbsp;: 3 à 15&nbsp;°C</li><li>Cols fermés à la 1re neige (le 20&nbsp;oct. l'an dernier)</li></ul>
+      <details class="repli"><summary>Profil et infos pratiques</summary><div class="contenu">
+        <svg class="profil" viewBox="0 0 300 110" role="img" aria-label="Profil de la montée du col d'Izoard depuis Briançon&nbsp;: 19 km, de 1 203 à 2 361 m">
+        <polygon points="0,100 0,95 5.1,94.4 11.1,93.4 17.2,90.8 23.2,87.7 29.2,85.5 35.4,83.8 41.5,82 48,80.7 54,79.6 60,79.1 66,79.1 72.4,80.1 78.7,79.9 84.8,79.4 91.6,77.7 97.8,75.4 103.8,73.8 110,72.7 116.7,71.8 123.4,69.9 129.7,70 135.7,68.8 142,67.7 148.2,65.8 154.2,64.3 160.5,62.3 166.7,60.3 173.6,58.2 179.8,57.2 186.1,55.1 192.3,53.2 198.6,50.7 204.6,48.8 211.1,46.4 217.7,43.5 223.7,41.4 229.9,39.3 236.3,36.9 243,34.3 249,32.2 257.5,29.3 263.5,27.3 269.8,25.2 275.8,22.9 281.8,21 287.8,19.3 293.8,17.2 300,15 300,100"/>
+        <polyline points="0,95 5.1,94.4 11.1,93.4 17.2,90.8 23.2,87.7 29.2,85.5 35.4,83.8 41.5,82 48,80.7 54,79.6 60,79.1 66,79.1 72.4,80.1 78.7,79.9 84.8,79.4 91.6,77.7 97.8,75.4 103.8,73.8 110,72.7 116.7,71.8 123.4,69.9 129.7,70 135.7,68.8 142,67.7 148.2,65.8 154.2,64.3 160.5,62.3 166.7,60.3 173.6,58.2 179.8,57.2 186.1,55.1 192.3,53.2 198.6,50.7 204.6,48.8 211.1,46.4 217.7,43.5 223.7,41.4 229.9,39.3 236.3,36.9 243,34.3 249,32.2 257.5,29.3 263.5,27.3 269.8,25.2 275.8,22.9 281.8,21 287.8,19.3 293.8,17.2 300,15"/>
+        <text x="4" y="14">Col d'Izoard, 2&nbsp;361 m</text>
+        <text x="4" y="106">Briançon, 1&nbsp;203 m</text><text x="296" y="106" text-anchor="end">19 km · ≈ 1&nbsp;200 m D+</text>
+      </svg>
+        <ul class="liste">
+          <li><b>Camp de base</b><small>Briançon (gare à 1&nbsp;km, commerces) ou Saint-Chaffrey (5&nbsp;km, pied du Granon, mais presque tout est fermé hors saison).</small></li>
+          <li><b>Courses</b><small>Leclerc, Carrefour Market et Intermarché à Briançon.</small></li>
+          <li><b>Météo</b><small>Gel possible le matin en fin de mois, neige possible au-dessus de 2&nbsp;000&nbsp;m.</small></li>
+          <li><b>Cols le 4&nbsp;octobre</b><small>Granon, Galibier et Échelle ouverts. L'Izoard ferme en général mi-novembre. À vérifier la veille sur Envie de Briançonnais.</small></li>
+        </ul>
+      </div></details>
+    </article>
+  </div>
+  <details class="repli"><summary>Comparatif point par point</summary><div class="contenu">
+    <div class="defile"><table>
+    <thead><tr><th>Critère</th><th data-dest="a">Sud Ardèche</th><th data-dest="b">Briançonnais</th></tr></thead>
+    <tbody>
+      <tr><td>En voiture depuis Grenoble</td><td class="bof">2&nbsp;h&nbsp;30, 196&nbsp;km, 14&nbsp;€ de péage</td><td class="oui">2&nbsp;h, 111&nbsp;km par le Lautaret, en alternat</td></tr>
+      <tr><td>En train + vélo</td><td class="oui">2&nbsp;h à 2&nbsp;h&nbsp;30, puis 33&nbsp;km de vélo</td><td class="bof">4&nbsp;h&nbsp;30 à 5&nbsp;h via Gap, ou car direct 3&nbsp;h</td></tr>
+      <tr><td>Vélo de route</td><td class="bof">Gorges et Cévennes, cols modestes</td><td class="oui">Cols mythiques, tant qu'ils sont ouverts</td></tr>
+      <tr><td>Gravel</td><td class="oui">Païolive, plateau des Gras</td><td class="oui">Forts de Briançon, Clarée, Granon</td></tr>
+      <tr><td>Rando pour tout le monde</td><td class="oui">Balades faciles, peu de dénivelé</td><td class="bof">Superbe, mais vite 400 à 600&nbsp;m de D+</td></tr>
+      <tr><td>Escalade pour débuter</td><td class="oui">Mazet, Chaulet&nbsp;: plein de voies en 4 et 5</td><td class="oui">Roche Baron, Les Vigneaux&nbsp;: en 4 et 5</td></tr>
+      <tr><td>Escalade engagée</td><td class="oui">Cirque de Gens&nbsp;: 300 voies du 5 au 8</td><td class="oui">Ailefroide&nbsp;: granite, grandes voies (plusieurs longueurs)</td></tr>
+      <tr><td>Météo en octobre</td><td class="bof">9 à 18&nbsp;°C, mois le plus pluvieux</td><td class="bof">3 à 15&nbsp;°C, gel le matin</td></tr>
+      <tr><td>Risque de sorties annulées</td><td class="oui">Faible, plan B grottes</td><td class="non">Élevé après le 20&nbsp;octobre (cols fermés)</td></tr>
+      <tr><td>Logement pour 6, par nuit</td><td class="oui">85 à 145&nbsp;€</td><td class="oui">80 à 130&nbsp;€</td></tr>
+      <tr><td>Plan B s'il pleut</td><td class="oui">Chauvet&nbsp;2, Aven d'Orgnac</td><td class="oui">Grands Bains, cité Vauban</td></tr>
+      <tr><td>Ambiance</td><td class="oui">Villages, marchés, fêtes de la châtaigne</td><td class="oui">Haute montagne, mélèzes dorés</td></tr>
+    </tbody>
+  </table></div>
+  </div></details>
+
+  <div class="reponse q" id="q2">
+    <p class="etape">Question 2 sur 5</p>
+    <fieldset><legend>Ta destination préférée</legend><div class="choix" data-groupe="Destination" data-requis data-ancre="q2">
+      <label><input type="radio" name="dest" value="Sud Ardèche">Sud Ardèche</label>
+      <label><input type="radio" name="dest" value="Briançonnais">Briançonnais</label>
+      <label><input type="radio" name="dest" value="peu importe">Peu importe</label>
+    </div></fieldset>
+  </div>
+</section>
+
+<!-- 3. QUOI -->
+<section id="quoi">
+  <h2>3. On y fait quoi&nbsp;?</h2>
+  <div class="defile coup-oeil"><table>
+    <thead><tr><th></th><th data-dest="a">Ardèche</th><th data-dest="b">Briançonnais</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Pour tous</th><td>Pont d'Arc, bois de Païolive, grotte Chauvet&nbsp;2</td><td>Cité Vauban, tour des forts, Grands Bains</td></tr>
+      <tr><th scope="row">Vélo</th><td>Boucle des gorges, col de Meyrand, gravel</td><td>Izoard, Granon, Galibier, gravel</td></tr>
+      <tr><th scope="row">Escalade</th><td>Mazet pour débuter, cirque de Gens pour les forts</td><td>Roche Baron pour débuter, Ailefroide pour les forts</td></tr>
+    </tbody>
+  </table></div>
+
+  <details class="repli" data-dest="a"><summary>Toutes les activités en Ardèche</summary><div class="contenu">
+    <h4>Pour tout le monde</h4>
+    <ul class="liste">
+      <li><b>Pont d'Arc et belvédères des gorges</b> · ½ journée · facile<small>En voiture pour les uns, à vélo pour les autres.</small></li>
+      <li><b>Bois de Païolive</b> · 40&nbsp;min à 1&nbsp;h&nbsp;30 · facile<small>Labyrinthe de rochers près des Vans. Circuits de 2 à 4&nbsp;km.</small></li>
+      <li><b>Boucle du dolmen de Chanet</b> · 2&nbsp;h&nbsp;30, 6&nbsp;km · moyen<small>Descente jusqu'au bord de l'Ardèche, remontée qui pique.</small></li>
+      <li><b>Tour de Rochecolombe</b> · 1&nbsp;h&nbsp;30, 6&nbsp;km · facile<small>Village médiéval, vue sur Balazuc.</small></li>
+      <li><b>Grotte Chauvet&nbsp;2</b> · 3&nbsp;h · 18&nbsp;€<small>Réplique de la grotte ornée, à Vallon. Parfait s'il pleut.</small></li>
+      <li><b>Aven d'Orgnac</b> · 1&nbsp;h · 16,50&nbsp;€<small>Grotte géante à 16&nbsp;km, 12&nbsp;°C toute l'année.</small></li>
+      <li class="incertain"><b>Canoë sous le Pont d'Arc</b> · 1&nbsp;h&nbsp;30, 8&nbsp;km · 18 à 28&nbsp;€<small>Tous les loueurs ne sont pas ouverts en octobre.</small></li>
+    </ul>
+    <h4>Vélo</h4>
+    <ul class="liste">
+      <li><b>Boucle des gorges</b> · route · 65&nbsp;km · environ 800&nbsp;m de D+ (dénivelé positif)<small>Vallon, route des gorges, Saint-Martin, plateau de Saint-Remèze.</small></li>
+      <li><b>Col de Meyrand</b> · route · environ 120&nbsp;km aller-retour · environ 1&nbsp;700&nbsp;m D+<small>Par Joyeuse et Valgorge. Montée finale&nbsp;: 16&nbsp;km à 5&nbsp;%.</small></li>
+      <li><b>Gravel «&nbsp;Entre bois et vignes&nbsp;»</b> · 50&nbsp;km · environ 1&nbsp;000&nbsp;m D+<small>Gravel = vélo pour chemins de terre. Boucle balisée depuis Les Vans, fin caillouteuse.</small></li>
+    </ul>
+    <h4>Escalade</h4>
+    <ul class="liste">
+      <li><b>Mazet-Plage</b> · initiation · 121 voies du 4a au 7c<small>Couennes (voies d'une longueur) courtes et bien équipées, à 20&nbsp;km.</small></li>
+      <li><b>Chaulet</b> · tous niveaux · 190 voies du 3c au 8c<small>Gorges du Chassezac, plein sud.</small></li>
+      <li><b>Cirque de Gens</b> · engagé · plus de 300 voies du 5 au 8<small>Pour ceux qui grimpent déjà en tête (qui installent la corde en montant).</small></li>
+      <li><b>Initiation avec un moniteur</b> · ½ journée · 35 à 52&nbsp;€<small>Matériel fourni.</small></li>
+    </ul>
+  </div></details>
+
+  <details class="repli" data-dest="b"><summary>Toutes les activités dans le Briançonnais</summary><div class="contenu">
+    <h4>Pour tout le monde</h4>
+    <ul class="liste">
+      <li><b>Cité Vauban et pont d'Asfeld</b> · 1&nbsp;h&nbsp;30 à 2&nbsp;h · facile, gratuit<small>Remparts classés à l'Unesco, à 1&nbsp;km de la gare.</small></li>
+      <li><b>Tour des forts depuis La Vachette</b> · 3 à 5&nbsp;h, 10&nbsp;km, environ 420&nbsp;m D+ · moyen<small>Trois forts et la vallée à tes pieds.</small></li>
+      <li class="incertain"><b>Lacs Laramon et du Serpent</b> · 4&nbsp;h&nbsp;30, 9&nbsp;km, 605&nbsp;m D+ · moyen<small>Vallée de la Clarée, mélèzes dorés. Neige possible en fin de mois.</small></li>
+      <li><b>Grands Bains du Monêtier</b> · 2&nbsp;h · 25&nbsp;€<small>Bassins chauds en plein air. Tous les jours du 19&nbsp;oct. au 1er&nbsp;nov.&nbsp;; avant, fermé lundi et mardi.</small></li>
+    </ul>
+    <h4>Vélo</h4>
+    <ul class="liste">
+      <li><b>Col d'Izoard</b> · route · 19&nbsp;km · environ 1&nbsp;200&nbsp;m D+<small>Depuis la maison. En boucle par Guillestre&nbsp;: 98&nbsp;km.</small></li>
+      <li><b>Col du Granon</b> · route · 11,5&nbsp;km à 9&nbsp;%<small>Le plus dur du coin. Sans voitures les 22 et 29&nbsp;oct. au matin.</small></li>
+      <li class="incertain"><b>Col du Galibier par le Lautaret</b> · route · 37&nbsp;km · environ 1&nbsp;450&nbsp;m D+<small>Ferme à la première neige&nbsp;: vérifier la veille.</small></li>
+      <li><b>Vallée de la Clarée</b> · route · 60&nbsp;km aller-retour · 660&nbsp;m D+<small>La journée récup', avec le col de Montgenèvre en bonus.</small></li>
+      <li><b>Granon gravel</b> · 65&nbsp;km · 1&nbsp;530&nbsp;m D+<small>Montée au Granon, descente par les pistes de la Clarée.</small></li>
+    </ul>
+    <h4>Escalade</h4>
+    <ul class="liste">
+      <li><b>Roche Baron, secteur «&nbsp;Sieste au soleil&nbsp;»</b> · initiation · voies de 4 et 5<small>Plein sud, à 9&nbsp;km.</small></li>
+      <li><b>Les Vigneaux</b> · tous niveaux · 50 à 100 voies du 4c au 7b<small>Exposé au sud, à 15&nbsp;km.</small></li>
+      <li class="incertain"><b>Ailefroide</b> · engagé · plus de 500 voies du 3a au 9a<small>Granite et grandes voies (plusieurs longueurs), à 28&nbsp;km.</small></li>
+      <li><b>Via ferrata de la Croix de Toulouse</b> · 3&nbsp;h · peu difficile<small>Parcours équipé de câbles et d'échelons. Guide dès 50&nbsp;€, matériel prêté.</small></li>
+      <li><b>Initiation avec un guide</b> · ½ journée · 75&nbsp;€<small>De 3 à 6 personnes, baudrier et casque prêtés.</small></li>
+    </ul>
+  </div></details>
+
+  <div class="reponse q" id="q3">
+    <p class="etape">Question 3 sur 5</p>
+    <fieldset><legend>Tes envies</legend><div class="choix" data-groupe="Envies" data-requis data-ancre="q3">
+      <label><input type="checkbox" value="vélo de route">Vélo de route</label>
+      <label><input type="checkbox" value="gravel">Gravel</label>
+      <label><input type="checkbox" value="rando">Rando</label>
+      <label><input type="checkbox" value="escalade">Escalade</label>
+      <label><input type="checkbox" value="visites et farniente">Visites et farniente</label>
+      <label><input type="checkbox" value="télétravail">Télétravail</label>
+    </div></fieldset>
+    <fieldset><legend>Ton niveau en escalade</legend><div class="choix" data-groupe="Escalade">
+      <label><input type="radio" name="grimpe" value="jamais grimpé">Jamais grimpé</label>
+      <label><input type="radio" name="grimpe" value="en salle">Je grimpe en salle</label>
+      <label><input type="radio" name="grimpe" value="en tête en falaise">En tête en falaise</label>
+      <label><input type="radio" name="grimpe" value="pas pour moi">Pas pour moi</label>
+    </div></fieldset>
+  </div>
+</section>
+
+<!-- 4. BUDGET -->
+<section id="budget">
+  <h2>4. Combien&nbsp;?</h2>
+  <div class="defile coup-oeil"><table>
+    <thead><tr><th>Par personne, tout compris</th><th data-dest="a">Ardèche</th><th data-dest="b">Briançonnais</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Week-end à 4<br><small>3 nuits, train ou car</small></th><td>160 à 250&nbsp;€</td><td>145 à 255&nbsp;€</td></tr>
+      <tr><th scope="row">Semaine à 6<br><small>8 nuits, covoiturage</small></th><td>275 à 455&nbsp;€</td><td>255 à 465&nbsp;€</td></tr>
+    </tbody>
+  </table></div>
+  <p class="discret">Logement, transport, courses et une sortie. Le logement seul revient à 13 à 28&nbsp;€ par nuit et par personne dès 4.</p>
+
+  <details class="repli"><summary>Prix des logements selon la taille du groupe</summary><div class="contenu">
+    <div class="defile"><table>
+    <thead><tr><th>Groupe</th><th>Logement</th><th data-dest="a">Ardèche, la nuit</th><th data-dest="b">Briançon&shy;nais, la nuit</th></tr></thead>
+    <tbody>
+      <tr><td>2 pers.</td><td>Studio, gîte 1 ch.</td><td>45 à 75&nbsp;€<br><small>23 à 38&nbsp;€/pers.</small></td><td>50 à 85&nbsp;€<br><small>25 à 43&nbsp;€/pers.</small></td></tr>
+      <tr><td>3 pers.</td><td>Gîte 1-2 ch.</td><td>55 à 85&nbsp;€<br><small>18 à 28&nbsp;€/pers.</small></td><td>55 à 95&nbsp;€<br><small>18 à 32&nbsp;€/pers.</small></td></tr>
+      <tr><td>4 pers.</td><td>Gîte, appart 2 ch.</td><td>60 à 100&nbsp;€<br><small>15 à 25&nbsp;€/pers.</small></td><td>60 à 110&nbsp;€<br><small>15 à 28&nbsp;€/pers.</small></td></tr>
+      <tr><td>6 pers.</td><td>Maison 3 ch.</td><td>85 à 145&nbsp;€<br><small>14 à 24&nbsp;€/pers.</small></td><td>80 à 130&nbsp;€<br><small>13 à 22&nbsp;€/pers.</small></td></tr>
+      <tr><td>8 pers.</td><td>Maison 4 ch. ou 2 gîtes de 4</td><td>120 à 200&nbsp;€<br><small>15 à 25&nbsp;€/pers.</small></td><td>150 à 210&nbsp;€<br><small>19 à 26&nbsp;€/pers.</small></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note incertain">Pour 2-3 nuits, vise le haut de la fourchette. Beaucoup de gîtes demandent 2 nuits minimum et ajoutent des frais de ménage. Les grandes maisons pour 8 sont rares à Briançon même&nbsp;: regarde aussi Saint-Chaffrey et La Salle-les-Alpes.</p>
+  </div></details>
+
+  <details class="repli"><summary>Calcule ton cas</summary><div class="contenu">
+    <div class="calc" id="calc">
+      <div class="champs">
+        <label>Destination<select id="c-dest"></select></label>
+        <label>Nombre de personnes<select id="c-pers"></select></label>
+        <label>Nombre de nuits<input id="c-nuits" type="number" min="1" max="14" value="3"></label>
+        <label>Transport<select id="c-trans"></select></label>
+      </div>
+      <p class="total" id="c-total" aria-live="polite">–</p>
+      <p class="detail" id="c-detail"></p>
+    </div>
+    <p class="discret">Courses et sorties&nbsp;: 15 à 25&nbsp;€ par jour en Ardèche, 15 à 30&nbsp;€ dans le Briançonnais. C'est une estimation de Jérémy et Hugo, pas un prix relevé.</p>
+  </div></details>
+
+  <div class="reponse q" id="q4">
+    <p class="etape">Question 4 sur 5</p>
+    <fieldset><legend>Ton budget max, tout compris</legend><div class="choix" data-groupe="Budget max" data-requis data-ancre="q4">
+      <label><input type="radio" name="budget" value="moins de 200 €">&lt; 200&nbsp;€</label>
+      <label><input type="radio" name="budget" value="200 à 350 €">200 à 350&nbsp;€</label>
+      <label><input type="radio" name="budget" value="350 à 500 €">350 à 500&nbsp;€</label>
+      <label><input type="radio" name="budget" value="plus de 500 €">500&nbsp;€ et plus</label>
+    </div></fieldset>
+  </div>
+</section>
+
+<!-- 5. TRAJET -->
+<section id="trajet">
+  <h2>5. Comment on y va&nbsp;?</h2>
+  <div class="defile coup-oeil"><table>
+    <thead><tr><th></th><th data-dest="a">Ardèche</th><th data-dest="b">Briançonnais</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Train + vélo</th><td class="oui">2&nbsp;h&nbsp;30, puis 33&nbsp;km de vélo</td><td class="bof">4&nbsp;h&nbsp;30 à 5&nbsp;h (travaux), ou car direct 3&nbsp;h</td></tr>
+      <tr><th scope="row">Voiture</th><td class="bof">2&nbsp;h&nbsp;30, péages</td><td class="oui">2&nbsp;h, sans péage</td></tr>
+      <tr><th scope="row">Un pote en voiture, Jérémy et Hugo à vélo</th><td class="oui">Très réaliste</td><td class="oui">Oui, s'ils montent à vélo (109&nbsp;km)</td></tr>
+    </tbody>
+  </table></div>
+  <p class="discret">Ni Jérémy ni Hugo n'ont de voiture. Bonne nouvelle&nbsp;: en octobre, le vélo monte gratuitement et sans réservation dans les TER.</p>
+
+  <details class="repli"><summary>Le détail des trajets et des locations</summary><div class="contenu">
+    <article class="scenario" data-dest="a">
+    <h4 style="color:var(--a)">Ardèche · train + vélo</h4>
+    <ol class="trajet">
+      <li data-mode="train"><strong>Grenoble → Valence → Pierrelatte</strong> · TER avec un changement, 2&nbsp;h à 2&nbsp;h&nbsp;30. Environ 55 à 75&nbsp;€ l'aller-retour. Vélo gratuit, sans réservation en octobre.</li>
+      <li data-mode="velo"><strong>Pierrelatte → Vallon-Pont-d'Arc</strong> · 33&nbsp;km, environ 470&nbsp;m D+, par le plateau de Saint-Remèze.</li>
+    </ol>
+    <p class="discret">Variante&nbsp;: descendre à Montélimar (dès 30&nbsp;€ l'aller), puis 50&nbsp;km et 490&nbsp;m D+. Avec la carte illico LIBERTÉ (30&nbsp;€ par an), le TER coûte 25&nbsp;% de moins en semaine et 50&nbsp;% de moins le week-end.</p>
+  </article>
+<article class="scenario" data-dest="b">
+    <h4 style="color:var(--b)">Briançonnais · train + vélo</h4>
+    <ol class="trajet">
+      <li data-mode="bus"><strong>Grenoble → Gap</strong> · travaux du 5&nbsp;octobre au 6&nbsp;novembre&nbsp;: car TER de remplacement, environ 2&nbsp;h&nbsp;30 à 3&nbsp;h. Vélos en soute, 3 maximum par car, selon la place.</li>
+      <li data-mode="train"><strong>Gap → Briançon</strong> · TER ZOU!, 1&nbsp;h&nbsp;15 à 1&nbsp;h&nbsp;30, 15 à 18&nbsp;€. 3 à 7 trains par jour.</li>
+      <li data-mode="velo"><strong>Gare → logement</strong> · 1&nbsp;km jusqu'au centre de Briançon, 8&nbsp;km et environ 280&nbsp;m D+ jusqu'à Saint-Chaffrey.</li>
+    </ol>
+    <p class="discret">Total&nbsp;: 4&nbsp;h&nbsp;30 à 5&nbsp;h, environ 90 à 130&nbsp;€ l'aller-retour. Plus simple&nbsp;: le car direct ZOU!&nbsp;55 par le Lautaret, en 3&nbsp;h. Départs de Grenoble à 10&nbsp;h&nbsp;45 et 15&nbsp;h&nbsp;45. On peut cocher «&nbsp;Je voyage avec un vélo&nbsp;» à la réservation. <span class="incertain">Prix d'environ 20 à 25&nbsp;€ l'aller et conditions vélo</span></p>
+  </article>
+<article class="scenario" data-dest="b">
+    <h4 style="color:var(--b)">Version bootcamp · Grenoble → Briançon à vélo</h4>
+    <ol class="trajet">
+      <li data-mode="velo"><strong>Grenoble → Bourg-d'Oisans → col du Lautaret → Briançon</strong> · 109&nbsp;km, environ 2&nbsp;260&nbsp;m D+. Une vraie première étape.</li>
+      <li data-mode="voiture"><strong>Les bagages</strong> · voyagent dans la voiture d'un pote, ou par le car ZOU!&nbsp;55.</li>
+    </ol>
+    <p class="discret">Travaux sur la route du Lautaret jusqu'au 30&nbsp;octobre&nbsp;: circulation en alternat, route fermée le vendredi 30&nbsp;octobre de 9&nbsp;h à 15&nbsp;h. Prends de bonnes lampes pour les tunnels. Retour à vélo (environ 1&nbsp;100&nbsp;m D+ dans ce sens) ou en car.</p>
+  </article>
+<article class="scenario">
+    <h4>Louer une voiture ou un utilitaire à Grenoble</h4>
+    <ol class="trajet">
+      <li data-mode="voiture"><strong>Utilitaire 3&nbsp;m³ (type Kangoo)</strong> · 2&nbsp;places, 2&nbsp;vélos debout sans rien démonter. Dès 31&nbsp;€ par jour chez Enterprise Gare de Grenoble, 54&nbsp;€ chez Rent A Car Gare. 100&nbsp;km par jour inclus.</li>
+      <li data-mode="voiture"><strong>Voiture 5&nbsp;places</strong> · 41 à 50&nbsp;€ par jour en moyenne en octobre, à la gare. <span class="incertain">2&nbsp;vélos roues démontées tiennent en rabattant une partie de la banquette, donc 3&nbsp;personnes maximum</span></li>
+      <li data-mode="voiture"><strong>Autopartage Citiz</strong> · 3 à 5&nbsp;€ de l'heure plus 0,44&nbsp;€ du km, carburant compris. Correct pour Briançon, cher pour l'Ardèche (400&nbsp;km aller-retour).</li>
+    </ol>
+    <p class="discret">Essence&nbsp;: 2,14 à 2,34&nbsp;€ le litre en septembre 2026. Ardèche&nbsp;: 196&nbsp;km, 2&nbsp;h&nbsp;30 et 14&nbsp;€ de péage par trajet. Briançon&nbsp;: 111&nbsp;km, 2&nbsp;h, sans péage.</p>
+  </article>
+<article class="scenario">
+    <h4>Le mix&nbsp;: un pote en voiture, Jérémy et Hugo en train + vélo</h4>
+    <ol class="trajet">
+      <li data-mode="voiture"><strong>La voiture</strong> · emmène les non-cyclistes et tous les bagages. Elle part 1 à 2&nbsp;h après Jérémy et Hugo.</li>
+      <li data-mode="train"><strong>Ardèche&nbsp;: oui, très réaliste</strong> · 2&nbsp;h&nbsp;30 de train puis 33&nbsp;km de vélo sans sacoches. Tout le monde arrive à peu près en même temps.</li>
+      <li data-mode="velo"><strong>Briançonnais&nbsp;: oui, si Jérémy et Hugo montent à vélo</strong> · 109&nbsp;km par le Lautaret. Sinon, 4&nbsp;h&nbsp;30 à 5&nbsp;h de car et de train, avec 3&nbsp;places vélo par car.</li>
+    </ol>
+    <p class="discret">Sur place, la voiture emmène les non-cyclistes aux balades et aux falaises. En Ardèche, elle est indispensable. À Briançon, elle est juste pratique.</p>
+  </article>
+  </div></details>
+
+  <div class="reponse q" id="q5">
+    <p class="etape">Question 5 sur 5</p>
+    <fieldset><legend>Ta voiture</legend><div class="choix" data-groupe="Voiture" data-requis data-ancre="q5">
+      <label><input type="radio" name="voiture" value="j'en ai une et j'emmène du monde">J'en ai une et j'emmène du monde</label>
+      <label><input type="radio" name="voiture" value="pas de voiture">Pas de voiture</label>
+    </div></fieldset>
+  </div>
+</section>
+
+<!-- RÉPONSE -->
+<section id="a-toi">
+  <h2>Ta réponse</h2>
+  <div class="reponse" id="form-reponse">
+    <fieldset><legend>Ton prénom</legend><input id="r-nom" autocomplete="given-name"></fieldset>
+    <fieldset><legend>Un mot&nbsp;? <small>(facultatif)</small></legend><textarea id="r-mot" rows="2"></textarea></fieldset>
+    <p id="manque" aria-live="polite"></p>
+    <div id="apercu"></div>
+    <div class="boutons">
+      <button type="button" id="r-copier">Copier ma réponse</button>    </div>
+  </div>
+  <p class="discret">Colle ta réponse dans le groupe Messenger. Jérémy et Hugo réservent dans la semaine (avant le 07/10).</p>
+</section>
+
+<details class="repli" id="sources"><summary>Sources (consultées le 4&nbsp;octobre 2026)</summary><div class="contenu">
+  <h3>Transports</h3>
+  <ul class="sources">
+    <li><a href="https://mmt.vsct.fr/sites/default/files/swt/CARA/2026-08/63%20-%20B125%20-%20Grenoble-Gap%20-%20Du%2005-10%20au%2006-11-26.pdf">TER Auvergne-Rhône-Alpes, fiche horaire travaux Grenoble–Gap du 5&nbsp;oct. au 6&nbsp;nov. 2026</a> · cars de remplacement, 3 vélos en soute</li>
+    <li><a href="https://www.laregionvoustransporte.fr/velo/votre-velo-a-bord/">La Région vous transporte, «&nbsp;Votre vélo à bord&nbsp;»</a> · réservation vélo du 1er&nbsp;mai au 27&nbsp;sept. 2026 seulement</li>
+    <li><a href="https://zou.maregionsud.fr/en/book-bicycle-space-board">ZOU! Région Sud, réserver une place vélo</a> · réservation du 1er&nbsp;mai au 28&nbsp;sept. 2026 seulement</li>
+    <li><a href="https://kelbillet.com/train/trajet/grenoble-montelimar.html">KelBillet, Grenoble–Montélimar</a> · dès 30&nbsp;€ l'aller en octobre 2026</li>
+    <li><a href="https://www.virail.fr/trains-grenoble-pierrelatte">Virail, Grenoble–Pierrelatte</a> · dès 33,50&nbsp;€, 2&nbsp;h à 2&nbsp;h&nbsp;30</li>
+    <li><a href="https://kelbillet.com/train/trajet/grenoble-gap.html">KelBillet, Grenoble–Gap</a> · 29 à 48&nbsp;€ l'aller en octobre 2026</li>
+    <li><a href="https://kelbillet.com/train/horaire/gap-briancon-33-214.html">KelBillet, Gap–Briançon</a> · 15 à 18&nbsp;€, 1&nbsp;h&nbsp;11 à 1&nbsp;h&nbsp;28</li>
+    <li><a href="https://www.ter.sncf.com/auvergne-rhone-alpes/tarifs-cartes/cartes-reduction/illico-liberte">TER AURA, carte illico LIBERTÉ</a> · 30&nbsp;€ par an, −25&nbsp;% en semaine, −50&nbsp;% le week-end</li>
+    <li><a href="https://www.autocars-resalp.com/en/time-line/briancon-grenoble">Autocars Resalp, ligne ZOU!&nbsp;55 Grenoble–Briançon</a> · horaires du 1er&nbsp;sept. au 17&nbsp;déc. 2026, travaux</li>
+    <li><a href="https://www.reservation-zou-resalp.fr/">Réservation ZOU! Resalp</a> · option vélo, majoration de 0,40&nbsp;€ à bord</li>
+    <li><a href="https://www.serre-chevalier.com/fr/infos-lautaret">Serre Chevalier, infos travaux RD1091</a> · fermetures jusqu'au 30&nbsp;oct. 2026</li>
+    <li><a href="https://www.locationutilitaires.fr/grenoble/">LocationUtilitaires.fr, Grenoble</a> · Kangoo 3&nbsp;m³ dès 31&nbsp;€ par jour, prix vérifiés le 30&nbsp;sept. 2026</li>
+    <li><a href="https://www.liligo.fr/location-voiture/france/grenoble/gare-grenoble">Liligo, location de voiture gare de Grenoble</a> · 41 à 50&nbsp;€ par jour</li>
+    <li><a href="https://aura.citiz.coop/particuliers/tarifs">Citiz AURA, tarifs</a> · 3 à 5&nbsp;€ de l'heure + 0,44&nbsp;€ du km</li>
+    <li><a href="https://mon-carburant.com/prix-moyen-carburant-france/">Mon-carburant, prix moyens septembre 2026</a> · gazole 2,34&nbsp;€, SP95-E10 2,14&nbsp;€</li>
+    <li><a href="https://distanceenvoiture.fr/fr/itineraire/Grenoble/Valence">Distance en voiture, péage A49 Grenoble–Valence</a> · 11,30&nbsp;€</li>
+    <li><a href="https://www.ici.fr/auvergne-rhone-alpes/drome-26/hausse-des-peages-combien-payez-vous-desormais-en-prenant-l-autoroute-7603592">ICI Drôme, péages A7</a> · Valence–Montélimar 2,70&nbsp;€</li>
+    <li><a href="https://brouter.de/">BRouter</a> et <a href="https://project-osrm.org/">OSRM</a> · distances, dénivelés et profils calculés sur les données OpenStreetMap</li>
+  </ul>
+  <h3>Logement</h3>
+  <ul class="sources">
+    <li><a href="https://www.gites-de-france-ardeche.com/recherche/locations-vacances-gites-vallon-pont-d-arc,type-g,insee-07330.html">Gîtes de France Ardèche, Vallon-Pont-d'Arc</a> · 29 gîtes, 300 à 1&nbsp;900&nbsp;€ la semaine</li>
+    <li><a href="https://www.gites-de-france-ardeche.com/recherche/locations-vacances-gites-ruoms,type-g,insee-07201.html">Gîtes de France Ardèche, Ruoms</a> · 24 gîtes, 300 à 1&nbsp;500&nbsp;€ la semaine</li>
+    <li><a href="https://www.gites-de-france-hautes-alpes.com/recherche/locations-vacances-gites-briancon,type-g,insee-05023.html">Gîtes de France Hautes-Alpes, Briançon</a> · 19 gîtes, dès 360&nbsp;€ la semaine</li>
+    <li><a href="https://www.gites-de-france-hautes-alpes.com/recherche/locations-vacances-gites-saint-chaffrey,type-g,insee-05133.html">Gîtes de France Hautes-Alpes, Saint-Chaffrey</a> · 20 gîtes, 330 à 2&nbsp;100&nbsp;€ la semaine</li>
+    <li><a href="https://www.gites-de-france-hautes-alpes.com/recherche/locations-vacances-gites-la-salle-les-alpes,type-g,insee-05161.html">Gîtes de France Hautes-Alpes, La Salle-les-Alpes</a> · gîte de 8 à 1&nbsp;450&nbsp;€ la semaine</li>
+  </ul>
+  <h3>Cols, saison et météo</h3>
+  <ul class="sources">
+    <li><a href="https://www.envie-de-brianconnais.com/meteo/etat-routes-cols/">Envie de Briançonnais, état des routes et des cols</a> · Granon, Galibier, Échelle ouverts le 4&nbsp;oct.</li>
+    <li><a href="https://www.envie-de-brianconnais.com/event/fermeture-hivernale-route-col-granon-2025">Envie de Briançonnais, fermeture du Granon 2025</a> · fermé le 20&nbsp;oct. 2025</li>
+    <li><a href="https://www.envie-de-brianconnais.com/event/fermeture-hivernale-route-col-galibier-2025">Envie de Briançonnais, fermeture du Galibier 2025</a> · fermé le 20&nbsp;oct. 2025</li>
+    <li><a href="https://www.envie-de-queyras.com/event/fermeture-hivernale-col-izoard-2025">Envie de Queyras, fermeture de l'Izoard 2025</a> · fermé le 14&nbsp;nov. 2025</li>
+    <li><a href="https://france3-regions.franceinfo.fr/provence-alpes-cote-d-azur/hautes-alpes/c-est-la-premiere-chute-de-neige-de-la-saison-le-col-du-galibier-deja-ferme-en-cette-fin-septembre-3222158.html">France 3, Galibier fermé par la neige le 23&nbsp;sept. 2025</a></li>
+    <li><a href="https://www.alti-mag.com/alti-actus/fermeture-cols-alpes">Alti-Mag, dates de fermeture prévues des cols en 2026</a></li>
+    <li><a href="https://www.envie-de-brianconnais.com/agenda/col-reserve-granon-2026/">Envie de Briançonnais, cols réservés Granon 2026</a> · 22 et 29&nbsp;oct., 9&nbsp;h-12&nbsp;h</li>
+    <li><a href="https://www.climatsetvoyages.com/climat/france/briancon">Climats et voyages, Briançon</a> · octobre 3,3 à 14,8&nbsp;°C</li>
+    <li><a href="https://planificateur.a-contresens.net/europe/france/auvergne_rhone_alpes/vallon_pont_d_arc/2970885-octobre.html">A contresens, Vallon-Pont-d'Arc en octobre</a> · 9 à 18&nbsp;°C, environ 110&nbsp;mm de pluie</li>
+    <li><a href="https://www.joursferies.fr/vacances-scolaires/villes/grenoble/2026-2027.php">Jours fériés, vacances scolaires Grenoble 2026-2027</a></li>
+  </ul>
+  <h3>Activités</h3>
+  <ul class="sources">
+    <li><a href="https://www.cols-cyclisme.com/cevennes/france/col-de-meyrand-depuis-valgorge-c686.htm">Cols-cyclisme, col de Meyrand depuis Valgorge</a></li>
+    <li><a href="https://www.sport-passion.fr/parcours/ascension-col-izoard.php">Sport-passion, ascension de l'Izoard</a></li>
+    <li><a href="https://www.ludo-sport-aventure.com/blog/cols-et-montees-a-velo/col-du-granon-a-velo-depuis-st-chaffrey-hautes-alpes.html">Ludo Sport Aventure, col du Granon depuis Saint-Chaffrey</a></li>
+    <li><a href="https://www.brianconnais.info/activites/velo/">Briançonnais.info, vélo</a> · Clarée 60&nbsp;km, boucle de l'Izoard 98&nbsp;km</li>
+    <li><a href="https://www.visugpx.com/itineraires/velo-gravel/hautes-alpes/briancon/">VisuGPX, gravel autour de Briançon</a></li>
+    <li><a href="https://www.cevennes-ardeche.com/en/itineraire/circuit-gravel-entre-bois-et-vignes-circuit-n2-6157208/">Cévennes d'Ardèche, circuit gravel n°2</a></li>
+    <li><a href="https://en.gorges-ardeche-pontdarc.fr/7-most-beautiful-walks/">Office de tourisme des gorges de l'Ardèche, 7 balades</a></li>
+    <li><a href="https://www.decathlon-outdoor.com/fr-fr/inspire/france/randonnee-bois-de-paiolive-ardeche">Decathlon Outdoor, randonnées au bois de Païolive</a></li>
+    <li><a href="https://en.grottechauvet2ardeche.com/practical-information/horaires-et-tarifs/">Grotte Chauvet&nbsp;2, horaires et tarifs</a> · 18&nbsp;€</li>
+    <li><a href="https://www.anigaido.com/lieux/paleo/aven-d-orgnac-grotte-et-cite-de-la-prehistoire">Anigaido, Aven d'Orgnac</a> · 16,50&nbsp;€, ouvert jusqu'au 15&nbsp;nov.</li>
+    <li><a href="https://www.yumping.com/fr/bons-plans/canoe/ardeche/descente-en-canoe-de-8-km-a-vallon-pont-darc--o79118">Yumping</a> et <a href="https://louloubateaux.com/en/">Loulou Bateaux</a> · canoë 8&nbsp;km, 18 à 28&nbsp;€</li>
+    <li><a href="https://destination.ecrins-parcnational.fr/trek/997120-Tour-des-Forts-de-Briancon-depuis-La-Vachette">Parc national des Écrins, tour des forts depuis La Vachette</a></li>
+    <li><a href="https://www.hautesvallees.com/la-claree/en/equipement/lac-laramon-and-lac-du-serpent-nevache/">Hautes Vallées, lacs Laramon et du Serpent</a></li>
+    <li><a href="https://www.serre-chevalier.com/en/activities/wellness-and-fitness/grands-bains-monetier">Serre Chevalier, Grands Bains du Monêtier</a> · horaires d'octobre 2026, 25&nbsp;€ les 2&nbsp;h</li>
+    <li><a href="https://actinidias.com/escalade-en-ardeche">Actinidias, escalade en Sud Ardèche</a> · Mazet, Chaulet</li>
+    <li><a href="https://www.massaintantoine.fr/escalade-ardeche-sites-falaises/">Mas Saint-Antoine, sites d'escalade en Ardèche</a> · cirque de Gens</li>
+    <li><a href="https://www.moniteurs-ardeche.com/escalade-ardeche-moniteurs/">Moniteurs Ardèche</a> et <a href="https://www.face-sud.com/escalade-ruoms/">Face Sud</a> · initiation 35 à 52&nbsp;€</li>
+    <li><a href="https://planetgrimpe.com/falaise/rocher-baron/">PlanetGrimpe, Rocher Baron</a> et <a href="https://rando.paysdesecrins.com/outdoor-site/105-Roche-baron---Sieste-au-soleil">Rando Pays des Écrins, secteur «&nbsp;Sieste au soleil&nbsp;»</a></li>
+    <li><a href="https://www.thecrag.com/fr/grimper/france/alps/briancon-area/briancon-argentiere-la-besse-area/area/2623029765">theCrag, Les Vigneaux</a></li>
+    <li><a href="https://climbingaway.fr/fr/site-escalade/ailefroide-voies">Climbing Away, Ailefroide</a></li>
+    <li><a href="https://www.directmountain.com/fr/activites/751-via-ferrata-croix-toulouse-briancon/">DirectMountain, via ferrata de la Croix de Toulouse</a> · guide dès 50&nbsp;€</li>
+    <li><a href="https://guides-briancon.com/products/products/escalade-en-falaise">Bureau des guides de Briançon, escalade en falaise</a> · 75&nbsp;€ la ½ journée</li>
+  </ul>
+  <h3>Agenda et courses</h3>
+  <ul class="sources">
+    <li><a href="https://www.castagnades.fr/">Parc des Monts d'Ardèche, Castagnades 2026</a> · du 10&nbsp;oct. au 8&nbsp;nov.</li>
+    <li><a href="https://www.cevennes-ardeche.com/temps-fort/castagnades-automne-cevennes-ardeche/">Office de tourisme Cévennes d'Ardèche, castagnades d'automne</a> · Joyeuse 17-18&nbsp;oct., Les Vans 24&nbsp;oct., Saint-André-Lachamp 25&nbsp;oct.</li>
+    <li><a href="https://onivapp.com/blog/castagnades-monts-ardeche-2026">Onivapp, calendrier des Castagnades 2026</a> · horaires, Antraigues 24-25&nbsp;oct.</li>
+    <li><a href="https://aventure-canoes.fr/en/adventure-guide/the-markets-of-vallon-pont-d-arc/">Aventure Canoës, marchés autour de Vallon</a></li>
+    <li><a href="https://www.ville-briancon.fr/loisirs/marches-foires">Ville de Briançon, marchés et foires</a> · foire du 18&nbsp;oct. 2026</li>
+    <li><a href="https://www.pagesjaunes.fr/pros/05447002">PagesJaunes, Intermarché Vallon-Pont-d'Arc</a> et <a href="https://www.pagesjaunes.fr/pros/61124923">Super U Ruoms</a></li>
+    <li><a href="https://www.carrefour.fr/magasin/market-briancon">Carrefour Market Briançon</a> et <a href="https://trouver-ouvert.fr/saint-chaffrey/carrefour-montagne-saint-chaffrey-580985">Carrefour Montagne Saint-Chaffrey</a></li>
+  </ul>
+</div></details>
+
+<footer>Préparé par Hugo et Jérémy le 4&nbsp;octobre 2026 · prix indicatifs relevés le 4&nbsp;octobre 2026, à confirmer avant de réserver.</footer>
+</main>
+
+<script type="application/json" id="donnees">
+{
+  "destinations": {
+    "a": {
+      "nom": "Sud Ardèche",
+      "logement_nuit": { "2": [45, 75], "3": [55, 85], "4": [60, 100], "6": [85, 145], "8": [120, 200] },
+      "transport": {
+        "Train + vélo (A/R)": { "cout": [55, 75], "unite": "pers" },
+        "Voiture d'un pote, frais à 4": { "cout": [25, 35], "unite": "pers" },
+        "Location voiture ou utilitaire": { "cout": [55, 80], "unite": "groupe_jour" }
+      },
+      "vie_jour": [15, 25]
+    },
+    "b": {
+      "nom": "Briançonnais",
+      "logement_nuit": { "2": [50, 85], "3": [55, 95], "4": [60, 110], "6": [80, 130], "8": [150, 210] },
+      "transport": {
+        "Car direct ZOU! 55 (A/R)": { "cout": [40, 50], "unite": "pers" },
+        "Train + car via Gap (A/R)": { "cout": [90, 130], "unite": "pers" },
+        "Vélo à l'aller, car au retour": { "cout": [20, 25], "unite": "pers" },
+        "Voiture d'un pote, frais à 4": { "cout": [13, 20], "unite": "pers" },
+        "Location voiture ou utilitaire": { "cout": [50, 70], "unite": "groupe_jour" }
+      },
+      "vie_jour": [15, 30]
+    }
+  }
+}
+</script>
+
+<script>
+(function(){
+  var fmt = new Intl.NumberFormat('fr-FR', {maximumFractionDigits: 0});
+  var arrondi = function(x){ return Math.round(x / 5) * 5; };
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* Thème clair / sombre */
+  var racine = document.documentElement, bTheme = $('theme');
+  function estSombre(){
+    var t = racine.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+  function majTheme(){
+    var s = estSombre();
+    bTheme.textContent = s ? '☀️ Clair' : '🌙 Sombre';
+    bTheme.setAttribute('aria-label', s ? 'Passer en thème clair' : 'Passer en thème sombre');
+  }
+  if (bTheme) {
+    bTheme.addEventListener('click', function(){
+      var n = estSombre() ? 'light' : 'dark';
+      racine.setAttribute('data-theme', n);
+      try { localStorage.setItem('theme', n); } catch(e) {}
+      majTheme();
+    });
+    majTheme();
+  }
+
+  /* Calculateur */
+  var D;
+  try { D = JSON.parse($('donnees').textContent).destinations; } catch(e) { D = null; }
+  var sDest = $('c-dest'), sPers = $('c-pers'), iNuits = $('c-nuits'), sTrans = $('c-trans');
+  function options(sel, liste){
+    var garde = sel.value; sel.innerHTML = '';
+    liste.forEach(function(o){ var op = document.createElement('option'); op.value = o[0]; op.textContent = o[1]; sel.appendChild(op); });
+    if (liste.some(function(o){ return o[0] === garde; })) sel.value = garde;
+  }
+  function calcule(){
+    var d = D[sDest.value]; if (!d) return;
+    options(sPers, Object.keys(d.logement_nuit).sort(function(a,b){return a-b;}).map(function(k){ return [k, k + ' personnes']; }));
+    options(sTrans, Object.keys(d.transport).map(function(k){ return [k, k]; }));
+    var p = +sPers.value, n = Math.max(1, +iNuits.value || 1), jours = n + 1;
+    var log = d.logement_nuit[sPers.value], t = d.transport[sTrans.value], v = d.vie_jour || [0, 0];
+    var tr = t ? (t.unite === 'groupe_jour' ? [t.cout[0] * jours / p, t.cout[1] * jours / p] : t.cout) : [0, 0];
+    var lg = [log[0] * n / p, log[1] * n / p], vi = [v[0] * jours, v[1] * jours];
+    var min = arrondi(lg[0] + tr[0] + vi[0]), max = arrondi(lg[1] + tr[1] + vi[1]);
+    $('c-total').textContent = fmt.format(min) + ' à ' + fmt.format(max) + ' € par personne';
+    $('c-detail').textContent = 'Logement ' + fmt.format(arrondi(lg[0])) + '-' + fmt.format(arrondi(lg[1])) + ' € · transport '
+      + fmt.format(arrondi(tr[0])) + '-' + fmt.format(arrondi(tr[1])) + ' € · courses et sorties '
+      + fmt.format(arrondi(vi[0])) + '-' + fmt.format(arrondi(vi[1])) + ' €';
+  }
+  if (D && sDest) {
+    options(sDest, Object.keys(D).map(function(k){ return [k, D[k].nom]; }));
+    if (sPers) { calcule(); sPers.value = '4'; }
+    [sDest, sPers, iNuits, sTrans].forEach(function(el){ el.addEventListener('input', calcule); });
+    calcule();
+  } else if ($('calc')) { $('calc').hidden = true; }
+
+  /* Réponse : les questions sont réparties dans la page, on les rassemble ici */
+  var groupes = document.querySelectorAll('.choix[data-groupe]');
+  var ap = $('apercu'), manque = $('manque');
+  function texte(){
+    var lignes = ['Réponse de ' + ($('r-nom').value.trim() || '…') + ' pour « ' + document.title + ' »'];
+    groupes.forEach(function(g){
+      var v = Array.prototype.map.call(g.querySelectorAll('input:checked'), function(i){ return i.value; });
+      if (v.length) lignes.push('• ' + g.dataset.groupe + ' : ' + v.join(', '));
+    });
+    var mot = $('r-mot').value.trim(); if (mot) lignes.push('• ' + mot);
+    return lignes.join('\n');
+  }
+  function majReponse(){
+    var t = texte();
+    ap.textContent = t;
+    var vides = Array.prototype.filter.call(groupes, function(g){
+      return g.hasAttribute('data-requis') && !g.querySelector('input:checked');
+    });
+    if (!$('r-nom').value.trim()) vides.unshift(null);
+    manque.innerHTML = '';
+    if (!vides.length) { manque.className = 'complet'; manque.textContent = '✓ Tout est rempli, il ne reste qu’à copier ta réponse.'; return; }
+    manque.className = '';
+    manque.appendChild(document.createTextNode('Il te manque : '));
+    vides.forEach(function(g, i){
+      if (i) manque.appendChild(document.createTextNode(', '));
+      var a = document.createElement('a');
+      if (g) { a.href = '#' + g.dataset.ancre; a.textContent = g.dataset.groupe.toLowerCase(); }
+      else { a.href = '#r-nom'; a.textContent = 'ton prénom'; }
+      manque.appendChild(a);
+    });
+    manque.appendChild(document.createTextNode('.'));
+  }
+  document.addEventListener('input', majReponse);
+  document.addEventListener('change', majReponse);
+  majReponse();
+  $('r-copier').addEventListener('click', function(){
+    var t = texte(), bouton = this;
+    var ok = function(){ bouton.textContent = 'Copié, colle-la dans le groupe'; };
+    var rate = function(){ bouton.textContent = 'Sélectionne le texte au-dessus'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(ok, rate); } else { rate(); }
+  });
+})();
+</script>
+</body>
+</html>
